@@ -1,0 +1,46 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.14.3
+  generator: "Rime::SwitcherSettings"
+  modified_time: "Fri Mar 20 17:10:14 2020"
+  rime_version: 1.5.3
+patch:
+  "menu/page_size": 10
+  ascii_composer:
+    good_old_caps_lock: true
+    switch_key:
+      Caps_Lock: commit_code
+      Control_L: noop
+      Control_R: noop
+      Shift_L: commit_code
+      Shift_R: inline_ascii
+      Eisu_toggle: clear
+  schema_list:
+    - {schema: zhuiyue}
+    - {schema: wubi86_qq}
+  switcher:
+    hotkeys:
+    - Control+grave
+  punctuator:
+    half_shape:
+      ':' : '：'
+      ';' : '；'
+      '\' : '、'
+      '/' : '/'
+      '|' : '·'
+      ',' : '，'
+      '.' : '。'
+      '?' : '？'
+      '!' : '！'
+      '$' : '￥'
+      '_' : '——'
+      '^' : '……'
+      "'" : { pair: [ '‘', '’' ] }
+      '"' : { pair: [ '“', '”' ] }
+      '<' : '《'
+      '>' : '》'
+      '[' : '【'
+      ']' : '】'
+      '(' : '（'
+      ')' : '）'
+

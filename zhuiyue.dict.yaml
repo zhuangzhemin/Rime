@@ -1,0 +1,16 @@
+# Rime dictionary
+# encoding: utf-8
+#
+
+---
+name: zhuiyue
+version: "2020.03.17"
+sort: by_weight
+use_preset_vocabulary: false
+import_tables:
+  - flypy_chars
+  - pinyin_simp
+  - modern_chinese_words
+  - THUOCL
+...
+
