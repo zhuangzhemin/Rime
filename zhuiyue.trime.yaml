@@ -53,7 +53,7 @@ style:
   key_long_text_size: 12 #長標籤字號
   key_text_size: 20 #鍵字號
   key_width: 10.0 #鍵寬，佔螢幕寬的百分比
-  keyboards: [cn_26keys, en_26keys, number_26keys, cn_36keys, en_36keys, number_36keys, cn_lefthand, en_lefthand, number_lefthand, cn_righthand, en_righthand, number_righthand]
+  keyboards: [cn_36keys, en_36keys, number_36keys, cn_26keys, en_26keys, number_26keys, cn_lefthand, en_lefthand, number_lefthand, cn_righthand, en_righthand, number_righthand]
   label_text_size: 20 #標籤字號
   label_font: label.ttf #編標籤字型
   latin_font: latin.ttf #西文字型
@@ -151,16 +151,16 @@ preset_color_schemes:
     text_color: 0x5a676e #編碼
     back_color: 0xe4e7e9 #候選區背景
     key_back_color: 0xeceff1 #按鍵背景
-    hilited_candidate_back_color: 0xd3d7da #標明候選背景
+    hilited_back_color: 0xd3d7da #標明編碼背景
     keyboard_back_color: 0xffffff #鍵盤背景
 
   dark:
     name: 深色
     author: "流星追月 <zhuangzhemin@qq.com>"
-    text_color: 0xaaaaaa
-    back_color: 0x0a0a0a
+    text_color: 0xaaaaaa #編碼
+    back_color: 0x0a0a0a #候選區背景
     key_back_color: 0x444444 #按鍵背景
-    hilited_candidate_back_color: 0x314259
+    hilited_back_color: 0x314259 #標明編碼背景
     keyboard_back_color: 0x0a0a0a #鍵盤背景
 
 android_keys:
@@ -356,99 +356,16 @@ preset_keys:
   Sync: {label: 同步, command: broadcast, option: "com.osfans.trime.sync"}
 
 preset_keyboards:
-  cn_26keys:
-    name: 中文26键
-    author: "流星追月 <zhuangzhemin@qq.com>"
-    ascii_mode: 0
-    width: 10
-    height: 48
-    vertical_gap: 6 #鍵盤行距
-    label_transform: uppercase #uppercase|none 中文模式下的字母標籤自動大寫
-    lock: true
-    keys:
-    - {click: 'q', long_click: "1"}
-    - {click: 'w', long_click: "2"}
-    - {click: 'e', long_click: '3'}
-    - {click: 'r', long_click: "4"}
-    - {click: 't', long_click: '5'}
-    - {click: 'y', long_click: '6'}
-    - {click: 'u', long_click: '7'}
-    - {click: 'i', long_click: '8'}
-    - {click: 'o', long_click: '9'}
-    - {click: 'p', long_click: '0'}
-    - {width: 5}
-    - {click: 'a', long_click: '@', swipe_left: Keyboard_cn_lefthand}
-    - {click: 's', long_click: "#"}
-    - {click: 'd', long_click: "$"}
-    - {click: 'f', long_click: "%"}
-    - {click: 'g', long_click: "^"}
-    - {click: 'h', long_click: "&"}
-    - {click: 'j', long_click: "*"}
-    - {click: 'k', long_click: "("}
-    - {click: 'l', long_click: ')', swipe_right: Keyboard_cn_righthand}
-    - {width: 5}
-    - {click: Shift_L, has_menu: Tab, width: 15}
-    - {click: 'z', long_click: '`'}
-    - {click: 'x', long_click: '"'}
-    - {click: 'c', long_click: "-"}
-    - {click: 'v', long_click: "_"}
-    - {click: 'b', long_click: '\'}
-    - {click: 'n', long_click: ':'}
-    - {click: 'm', long_click: ";"}
-    - {click: BackSpace, swipe_up: Escape, width: 15}
-    - {click: Mode_switch, long_click: Menu, width: 12.5}
-    - {click: Keyboard_number_26keys, long_click: Color_settings, width: 12.5}
-    - {click: ',', long_click: "/", has_menu: Page_Up}
-    #- {click: space, long_click: VOICE_ASSIST, width: 30}
-    - {click: space, long_click: VOICE_ASSIST, width: 30}
-    - {click: '.', long_click: '?', has_menu: Page_Down}
-    - {click: Return, long_click: Keyboard_cn_36keys, width: 25}
-
-  en_26keys:
-    name: 英文26键
-    author: "流星追月 <zhuangzhemin@qq.com>"
-    __include: /preset_keyboards/cn_26keys
-    ascii_mode: 1
-    lock: false
-    keys@35: {click: Return, long_click: Keyboard_en_36keys, width: 25}
-
-  number_26keys:
-    name: 数字
-    width: 20
-    height: 48
-    vertical_gap: 6 #鍵盤行距
-    keys:
-    - {click: '+'}
-    - {click: '1'}
-    - {click: '2'}
-    - {click: '3'}
-    - {click: BackSpace}
-    - {click: '-'}
-    - {click: '4'}
-    - {click: '5'}
-    - {click: '6'}
-    - {click: space}
-    - {click: '*'}
-    - {click: '7'}
-    - {click: '8'}
-    - {click: '9'}
-    - {click: '%'}
-    - {click: '/'}
-    - {click: '='}
-    - {click: '0'}
-    - {click: '.'}
-    - {click: Keyboard_cn_26keys}
-
   cn_36keys:
     name: 中文36键
     author: "流星追月 <zhuangzhemin@qq.com>"
     ascii_mode: 0
     width: 10
-    height: 44
+    height: 48
     label_transform: uppercase #uppercase|none 中文模式下的字母標籤自動大寫
     lock: true
     keys:
-    - {click: '1', long_click: '!'}
+    - {click: '1', height: 44, long_click: '!'}
     - {click: '2', long_click: '@'}
     - {click: '3', long_click: '#'}
     - {click: '4', long_click: '$'}
@@ -529,6 +446,89 @@ preset_keyboards:
     - {click: '.'}
     - {click: Keyboard_cn_36keys}
 
+  cn_26keys:
+    name: 中文26键
+    author: "流星追月 <zhuangzhemin@qq.com>"
+    ascii_mode: 0
+    width: 10
+    height: 48
+    vertical_gap: 6 #鍵盤行距
+    label_transform: uppercase #uppercase|none 中文模式下的字母標籤自動大寫
+    lock: true
+    keys:
+    - {click: 'q', long_click: "1"}
+    - {click: 'w', long_click: "2"}
+    - {click: 'e', long_click: '3'}
+    - {click: 'r', long_click: "4"}
+    - {click: 't', long_click: '5'}
+    - {click: 'y', long_click: '6'}
+    - {click: 'u', long_click: '7'}
+    - {click: 'i', long_click: '8'}
+    - {click: 'o', long_click: '9'}
+    - {click: 'p', long_click: '0'}
+    - {width: 5}
+    - {click: 'a', long_click: "!", swipe_left: Keyboard_cn_lefthand}
+    - {click: 's', long_click: "@"}
+    - {click: 'd', long_click: "#"}
+    - {click: 'f', long_click: "$"}
+    - {click: 'g', long_click: "%"}
+    - {click: 'h', long_click: "^"}
+    - {click: 'j', long_click: "*"}
+    - {click: 'k', long_click: "("}
+    - {click: 'l', long_click: ')', swipe_right: Keyboard_cn_righthand}
+    - {width: 5}
+    - {click: Shift_L, has_menu: Tab, width: 15}
+    - {click: 'z', long_click: '`'}
+    - {click: 'x', long_click: '"'}
+    - {click: 'c', long_click: "-"}
+    - {click: 'v', long_click: "_"}
+    - {click: 'b', long_click: '\'}
+    - {click: 'n', long_click: ':'}
+    - {click: 'm', long_click: ";"}
+    - {click: BackSpace, swipe_up: Escape, width: 15}
+    - {click: Mode_switch, long_click: Menu, width: 12.5}
+    - {click: Keyboard_number_26keys, long_click: Color_settings, width: 12.5}
+    - {click: ',', long_click: "/", has_menu: Page_Up}
+    #- {click: space, long_click: VOICE_ASSIST, width: 30}
+    - {click: space, long_click: VOICE_ASSIST, width: 30}
+    - {click: '.', long_click: '?', has_menu: Page_Down}
+    - {click: Return, long_click: Keyboard_cn_36keys, width: 25}
+
+  en_26keys:
+    name: 英文26键
+    author: "流星追月 <zhuangzhemin@qq.com>"
+    __include: /preset_keyboards/cn_26keys
+    ascii_mode: 1
+    lock: false
+    keys@35: {click: Return, long_click: Keyboard_en_36keys, width: 25}
+
+  number_26keys:
+    name: 数字
+    width: 20
+    height: 48
+    vertical_gap: 6 #鍵盤行距
+    keys:
+    - {click: '+'}
+    - {click: '1'}
+    - {click: '2'}
+    - {click: '3'}
+    - {click: BackSpace}
+    - {click: '-'}
+    - {click: '4'}
+    - {click: '5'}
+    - {click: '6'}
+    - {click: space}
+    - {click: '*'}
+    - {click: '7'}
+    - {click: '8'}
+    - {click: '9'}
+    - {click: '%'}
+    - {click: '/'}
+    - {click: '='}
+    - {click: '0'}
+    - {click: '.'}
+    - {click: Keyboard_cn_26keys}
+
   cn_lefthand:
     name: 中文左手模式
     author: "流星追月 <zhuangzhemin@qq.com>"
@@ -551,12 +551,12 @@ preset_keyboards:
     - {click: 'p', long_click: '0'}
     - {width: 20}
     - {width: 4}
-    - {click: 'a', long_click: '@'}
-    - {click: 's', long_click: "#"}
-    - {click: 'd', long_click: "$"}
-    - {click: 'f', long_click: "%"}
-    - {click: 'g', long_click: "^"}
-    - {click: 'h', long_click: "&"}
+    - {click: 'a', long_click: "!"}
+    - {click: 's', long_click: "@"}
+    - {click: 'd', long_click: "#"}
+    - {click: 'f', long_click: "$"}
+    - {click: 'g', long_click: "%"}
+    - {click: 'h', long_click: "^"}
     - {click: 'j', long_click: "*"}
     - {click: 'k', long_click: "("}
     - {click: 'l', long_click: ')'}
@@ -640,12 +640,12 @@ preset_keyboards:
     - {click: 'p', long_click: '0'}
     - {width: 20}
     - {width: 4}
-    - {click: 'a', long_click: '@'}
-    - {click: 's', long_click: "#"}
-    - {click: 'd', long_click: "$"}
-    - {click: 'f', long_click: "%"}
-    - {click: 'g', long_click: "^"}
-    - {click: 'h', long_click: "&"}
+    - {click: 'a', long_click: "!"}
+    - {click: 's', long_click: "@"}
+    - {click: 'd', long_click: "#"}
+    - {click: 'f', long_click: "$"}
+    - {click: 'g', long_click: "%"}
+    - {click: 'h', long_click: "^"}
     - {click: 'j', long_click: "*"}
     - {click: 'k', long_click: "("}
     - {click: 'l', long_click: ')'}
