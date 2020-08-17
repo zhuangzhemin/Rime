@@ -405,7 +405,7 @@ preset_keyboards:
     - {click: 'n', long_click: ':'}
     - {click: 'm', long_click: ";"}
     - {click: BackSpace, swipe_up: Escape, width: 15}
-    - {click: Mode_switch, height: 50, long_click: Menu, width: 12.5}
+    - {click: Mode_switch, height: 48, long_click: Menu, width: 12.5}
     - {click: Keyboard_number_36keys, long_click: Color_settings, width: 12.5}
     - {click: ',', long_click: "/", has_menu: Page_Up}
     - {click: space, long_click: VOICE_ASSIST, width: 30}
@@ -423,7 +423,7 @@ preset_keyboards:
   number_36keys:
     name: 数字
     width: 20
-    height: 57.5
+    height: 60
     keys:
     - {click: '+'}
     - {click: '1'}
