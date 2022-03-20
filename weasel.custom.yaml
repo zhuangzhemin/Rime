@@ -1,0 +1,11 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.14.3
+  generator: "Weasel::UIStyleSettings"
+  modified_time: "Thu Mar 19 17:09:24 2020"
+  rime_version: 1.7.3
+patch:
+  "style/color_scheme": psionics
+  "style/font_point": 12
+  "style/display_tray_icon": true
+  "style/inline_preedit": true
