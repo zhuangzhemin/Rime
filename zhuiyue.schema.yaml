@@ -118,7 +118,7 @@ speller:
 translator:
   dictionary: zhuiyue
   prism: zhuiyue
-  enable_correction: false         # 电脑上不需要开启按键纠错
+  enable_correction: true          # 在手机上开启按键纠错
   preedit_format:
   enable_charset_filter: true
 
