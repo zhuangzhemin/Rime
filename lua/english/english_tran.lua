@@ -30,6 +30,28 @@ local function njload()
   return nj
 end
 
+local function truncate_comment(comment)
+  local MAX_LENGTH = 50
+  local gsub_fmt = package.config:sub(1,1) == "/" and "\n" or "\r"
+  local result = comment:gsub("\\n",gsub_fmt)
+  if #result > MAX_LENGTH then
+    result = result:utf8_sub(1, MAX_LENGTH)
+  end
+  return result
+end
+
+local function sync_case(input, candidate_word)
+  local is_first_char_cap = input:sub(1,1):upper() == input:sub(1,1)
+  local is_second_char_cap = input:sub(2,2):upper() == input:sub(2,2)
+  if is_first_char_cap and is_second_char_cap then
+    return candidate_word:upper()
+  elseif is_first_char_cap then
+    return candidate_word:sub(1,1):upper() .. candidate_word:sub(2)
+  else
+    return candidate_word
+  end
+end
+
 local English="english"
 local Ninja="ninja"
 
@@ -93,10 +115,10 @@ function T.func(inp,seg,env)
   -- 使用 context.input 杳字典 type "english"
   for w in T._eng_dict:iter(inp:sub(seg.start,seg._end)) do
     -- 如果 與 字典相同 替換 first cand.comment
-    if first.type == English and input == w.word or input:lower() == w.word then
-      first.comment= w.info:gsub("\\n", env.gsub_fmt)
+    if first.type == English and input:lower() == w.word then
+      first.comment= truncate_comment(w.info)
     else
-      yield( Candidate(English,seg.start,seg._end,w.word,w.info:gsub("\\n",env.gsub_fmt)) )
+      yield( Candidate(English,seg.start,seg._end,sync_case(input,w.word),truncate_comment(w.info)) )
     end
   end
   -- 使用 ninja 最後一佪字查字典 type "ninja"
@@ -106,7 +128,7 @@ function T.func(inp,seg,env)
 
     for w in T._eng_dict:iter(n_word) do
       -- seg.start =   seg.end - #m_word
-      yield( Candidate(Ninja, seg._end - #n_word , seg._end,w.word,"(Ninja) " .. w.info:gsub("\\n",env.gsub_fmt)))
+      yield( Candidate(Ninja, seg._end - #n_word , seg._end,w.word,"(Ninja) " .. truncate_comment(w.info)))
     end
   end
 end
