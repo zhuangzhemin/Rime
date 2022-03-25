@@ -82,7 +82,7 @@ end
 local function split_str(str)
   str= type(str)== "string" and  str  or ""
   local w,p=table.unpack(str:split(":"))
-  local pw= w:match("^[%a][%a%.%-_]*")
+  local pw= w:match("^[%a][%a%.%-_]*") or ""
   local ws= List( w:split("/") )
   local ww= ws:shift()
   ww=  ww .. ws:map(function(elm)
@@ -94,7 +94,7 @@ end
 local function conv_pattern(org_text)
   local pw,ww,p = split_str(org_text)
   pw= "^" .. conver_rex(pw:lower())
-  ww="^"  .. conver_rex(ww:lower())
+  ww= "^" .. conver_rex(ww:lower())
   p= p:len() >0
     and   "%s" .. conver_rex(p:lower() ) .. "[%a%-%.]*%."
     or "" --  [ ] p [%a]*%."
@@ -291,9 +291,8 @@ function English:pre_suffix(key)
 end
 
 function English:find_index(org_text)
-  local key= ( org_text:match("^([%a%.%_%-]+).*") or "")
-  :lower()
-  :sub(1, self._level )
+  local key=  org_text and org_text:match("^([%a%.%_%-]+).*") or ""
+  key = key:lower():sub(1, self._level )
   local index =self._dict_tree[ key:lower() ]
   if not index then return end
 

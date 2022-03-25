@@ -68,7 +68,7 @@ engine:
     #- charset_filter@gbk+emoji
 
 speller:
-  alphabet: "zyxwvutsrqponmlkjihgfedcba`/:"
+  alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`/:"
   delimiter: " '"
   algebra:
     - derive/^(.*)$/~$1/  # backup original pin yin code 
@@ -173,29 +173,20 @@ key_binder:
     # 用"-"和"="进行翻页
     - { when: has_menu, accept: minus, send: Page_Up }
     - { when: has_menu, accept: equal, send: Page_Down }
-    # Tab键改成Down，用于选择候选词
-    - { when: composing, accept: Tab, send:  Down }
+    # 用Tab键来移动光标到第2个字符后面，以便输入第1个字的形码
+    - { when: composing, accept: Tab, send_sequence:  "{Home}{Right}{Right}" }
     # Control+HJKL作为方向键
-    - { when: has_menu, accept: Control+h, send: Left }
-    - { when: has_menu, accept: Control+j, send: Down }
-    - { when: has_menu, accept: Control+k, send: Up }
-    - { when: has_menu, accept: Control+l, send: Right }
-    # Control+[1-5]快速移动光标位置以便输入形码
-    - { when: composing, accept: Control+1, send_sequence:  "{Home}{Right}{Right}" } # 光标移动到第2个字符后面
-    - { when: composing, accept: Control+2, send_sequence:  "{Home}{Right}{Right}{Right}{Right}" } # 光标移动到第4个字符后面
-    - { when: composing, accept: Control+3, send_sequence:  "{Home}{Right}{Right}{Right}{Right}{Right}{Right}" } # 光标移动到第6个字符后面
-    - { when: composing, accept: Control+4, send_sequence:  "{Home}{Right}{Right}{Right}{Right}{Right}{Right}{Right}{Right}" } # 光标移动到第8个字符后面
-    - { when: composing, accept: Control+5, send_sequence:  "{Home}{Right}{Right}{Right}{Right}{Right}{Right}{Right}{Right}{Right}{Right}" } # 光标移动到第10个字符后面
-    # 手机上按Control键不方便，把HJKL键长按得到的"Left"、"Down"、"Up"、"Down"重映射成快速移动光标以便输入形码
-    - { when: composing, accept: Left, send_sequence: "{Home}{Right}{Right}" } # 光标移动到第2个字符后面
-    - { when: composing, accept: Down, send_sequence: "{Home}{Right}{Right}{Right}{Right}" } # 光标移动到第4个字符后面
-    - { when: composing, accept: Up, send_sequence: "{Home}{Right}{Right}{Right}{Right}{Right}{Right}" } # 光标移动到第6个字符后面
-    - { when: composing, accept: Right, send_sequence: "{Home}{Right}{Right}{Right}{Right}{Right}{Right}{Right}{Right}" } # 光标移动到第8个字符后面
+    - { when: has_menu, accept: Control+h, send: Left } # 向左移动光标到前1个字位置
+    - { when: has_menu, accept: Control+j, send: Down } # 竖排候选词模式，移动到下一个候选词
+    - { when: has_menu, accept: Control+k, send: Up } # 竖排候选词模式，移动到上一个候选词
+    - { when: has_menu, accept: Control+l, send_sequence:  "{Right}{Right}" } # 向右移动光标到后1个字位置
+    # Right键改成向右移动两个字符（双拼两个字符输入一个汉字）
+    - { when: composing, accept: Right, send_sequence: "{Right}{Right}" } # 向右移动光标到后1个字位置
     # 手机上按Shift+Delete键不方便，用X键长按得到的"Control+x"来删除候选字
     - { when: has_menu, accept: Control+x, send: Shift+Delete } # DeleteCandidate for Android
 
 recognizer:
-  import_preset: default
+  # import_preset: default
   patterns:
     reverse_lookup: "[a-z`]*`+[a-z`]*"
 
