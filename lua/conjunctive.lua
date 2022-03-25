@@ -64,7 +64,7 @@ local dict_file = __conjunctive_file and __conjunctive_file.default or 'essay.tx
 local dict_file_cn = __conjunctive_file and __conjunctive_file.enable or 'essay_cn.txt'
 --dict_file= '/usr/share/rime-data/essay.txt'  -- debug
 local switch_key ="F11"
-local escape_key = ".-"
+local escape_key = ""
 local path_ch= package.config:sub(1,1)
 
 
@@ -335,15 +335,19 @@ function P.func(key, env)
     -- pass ~<>HBC  select_commit char and  escape_key
     if ascii:match(env.escape_regex) then
       --pass
-    elseif ascii:match(env.alphabet_regex) or  ascii:match("^%p$") then
+    elseif ascii:match(env.alphabet_regex) then
       context:clear()
-    --
-    elseif key:repr() == "Return" or key:repr() == "BackSpace" then
+    elseif ascii:match("^%p$") then
+      context:clear()
+    elseif key:repr() == "Return" then
+      context:clear()
+    elseif key:repr() == "Shift_L" or key:repr() == "Shift_R" then
+      context:clear()
+    elseif key:repr() == "Shift+Shift_L" or key:repr() == "Shift+Shift_R" then
+      context:clear()
+    elseif key:repr() == "BackSpace" and #context.input < 3 then
       context:clear()
       return Accepted
-    -- elseif ascii:match(env.escape_regex) then
-    else
-
     end
   end
 
