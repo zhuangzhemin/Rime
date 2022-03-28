@@ -114,6 +114,9 @@ speller:
     - xform/^~// # restore original quanpin
     #- abbrev/^(.).+$/$1/
 
+simplifier:
+  opencc_config: t2s.json          # opencc 繁体->简体转换
+
 translator:
   dictionary: zhuiyue
   prism: zhuiyue

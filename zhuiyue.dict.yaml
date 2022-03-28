@@ -12,5 +12,6 @@ import_tables:
   - pinyin_simp
   - modern_chinese_words
   - THUOCL
+  - network_recent_words
 ...
 
