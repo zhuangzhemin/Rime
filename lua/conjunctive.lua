@@ -131,6 +131,8 @@ function M.init(env)
   end )
 end
 
+local icon = "📔"
+
 function M.fini(env)
   env.commit_connect:disconnect()
   env.update_connect:disconnect()
@@ -147,7 +149,7 @@ function M.func(input,seg,env)
 
   local active_input = input:match("^".. pattern_str .. "(.*)$")
   if active_input == nil then return end
-  local preedit= "[聯]"
+  local preedit= "[" .. icon .. "]"
   local cand_type="history"
 
   if active_input == "C" then
@@ -184,7 +186,7 @@ function M.func(input,seg,env)
 
   local dict = context:get_option("simplification") and env.dict_cn or env.dict
   for w ,wt in dict:reduce_iter(history) do
-    local cand= Candidate( lua_tran_ns , seg.start,seg._end, w, "(聯)")
+    local cand= Candidate( lua_tran_ns , seg.start,seg._end, w, "(" .. icon .. ")")
     cand.preedit=w .. preedit
     yield(cand)
   end
@@ -194,7 +196,7 @@ local F={}
 function F.init(env)
   env.dict= M._dict
   env.dict_cn= M._dict_cn
-  env.preedit= "[聯]"
+  env.preedit= "[" .. icon "]"
   env.max=8
   env.weight=100
 end
