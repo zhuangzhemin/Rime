@@ -1,0 +1,64 @@
+# english.schema.yaml
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: ECDICT
+  name: ECDICT
+  version: "0.1"
+  description:
+    英文单词(释义)输入法。
+
+engine:
+  processors:
+    - speller
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - abc_segmentor
+  translators:
+    - echo_translator
+    - table_translator
+  filters:
+    - lua_filter@ecdict_filter
+
+translator:
+  enable_encoder: false
+  encode_commit_history: false
+  enable_sentence: false
+  enable_completion: true        # 是否启用英文输入联想补全
+  enable_user_dict: true
+  dictionary: ECDICT
+
+speller:
+  alphabet:     # 使該方案支持大寫拉丁字母輸入
+    "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA-"
+  algebra:
+    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
+    - derive/^a/A/
+    - derive/^b/B/
+    - derive/^c/c/
+    - derive/^d/D/
+    - derive/^e/E/
+    - derive/^f/F/
+    - derive/^g/G/
+    - derive/^h/H/
+    - derive/^i/I/
+    - derive/^j/J/
+    - derive/^k/K/
+    - derive/^l/L/
+    - derive/^m/M/
+    - derive/^n/N/
+    - derive/^o/O/
+    - derive/^p/P/
+    - derive/^q/Q/
+    - derive/^r/R/
+    - derive/^s/S/
+    - derive/^t/T/
+    - derive/^u/U/
+    - derive/^v/V/
+    - derive/^w/W/
+    - derive/^x/X/
+    - derive/^y/Y/
+    - derive/^z/Z/
