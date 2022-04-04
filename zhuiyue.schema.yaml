@@ -17,6 +17,7 @@ schema:
     - flypy_chars
     - flypy_phrases
     - wiki_zh
+    - ecdict
 
 switches:
   - name: ascii_mode
@@ -60,14 +61,14 @@ engine:
     - table_translator@custom_phrase_completion
     - table_translator@custom_phrase_no_completion
     - reverse_lookup_translator
+    - table_translator@ecdict
   filters:
+    - lua_filter@ecdict_filter
     - simplifier
     - uniquifier
-    #- charset_filter@gb2312+emoji
-    #- charset_filter@gbk+emoji
 
 speller:
-  alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`/:"
+  alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`"
   delimiter: " '"
   algebra:
     - derive/^(.*)$/~$1/  # backup original pin yin code 
@@ -138,6 +139,14 @@ wiki_zh:                           # 小鹤音形-维基中文词条, 支持自�
   enable_sentence: false
   enable_user_dict: true
   dictionary: wiki_zh
+  initial_quality: -1
+
+ecdict:                           # 英文单词(中文释义提示), 搭配lua脚本使用
+  enable_encoder: false
+  encode_commit_history: false
+  enable_sentence: false
+  enable_completion: true        # 是否启用英文输入联想补全
+  dictionary: ecdict
   initial_quality: -1
 
 custom_phrase_completion:         # 用户自定义词库custom_phrase_completion.txt，支持自动补全
