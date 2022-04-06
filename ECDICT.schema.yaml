@@ -33,32 +33,4 @@ translator:
 
 speller:
   alphabet:     # 使該方案支持大寫拉丁字母輸入
-    "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA-"
-  algebra:
-    - xlit/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/
-    - derive/^a/A/
-    - derive/^b/B/
-    - derive/^c/c/
-    - derive/^d/D/
-    - derive/^e/E/
-    - derive/^f/F/
-    - derive/^g/G/
-    - derive/^h/H/
-    - derive/^i/I/
-    - derive/^j/J/
-    - derive/^k/K/
-    - derive/^l/L/
-    - derive/^m/M/
-    - derive/^n/N/
-    - derive/^o/O/
-    - derive/^p/P/
-    - derive/^q/Q/
-    - derive/^r/R/
-    - derive/^s/S/
-    - derive/^t/T/
-    - derive/^u/U/
-    - derive/^v/V/
-    - derive/^w/W/
-    - derive/^x/X/
-    - derive/^y/Y/
-    - derive/^z/Z/
+    "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA"

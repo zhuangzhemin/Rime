@@ -4,7 +4,7 @@
 schema:
   schema_id: zhuiyue
   name: 流星追月
-  version: "0.3.0"
+  version: "0.4.0"
   author:
     - 流星追月 <zhuangzhemin@qq.com>
   description: |
@@ -30,15 +30,16 @@ switches:
     states: [ 繁, 简 ]
   - name: ascii_punct
     states: [ 。, ． ]
-  #- options: [ gbk+emoji, utf8 ]
-  #  states: [ GBK, UTF-8 ]
-  #  reset: 0
+  - name: ecdict
+    states: [ 中英, 英文 ]
+    reset: 0
   - name: _hide_candidate
     states: [ ☐, ─ ]
     reset: 1
 
 engine:
   processors:
+    - lua_processor@ecdict_processor # 非ASCII模式下，使用右shift键切换中英/英文模式
     - ascii_composer
     - recognizer
     - key_binder
@@ -63,15 +64,15 @@ engine:
     - reverse_lookup_translator
     - table_translator@ecdict
   filters:
-    - lua_filter@ecdict_filter
     - simplifier
     - uniquifier
+    - lua_filter@ecdict_filter
 
 speller:
   alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`"
   delimiter: " '"
   algebra:
-    - derive/^(.*)$/~$1/  # backup original pin yin code 
+    - derive/^(.*)$/~$1/  # 把*.dict.yaml词库里面的(全拼)编码备份一份，开头添加“~”标识
     - xform/^sh(\w+)$/U$1/
     - xform/^ch(\w+)/I$1/
     - xform/^zh(\w+)/V$1/
@@ -112,7 +113,7 @@ speller:
     - derive/^(\w+);(\w)(\w)$/$1``/    # Flypy: AB``
     - derive/^(\w+);(\w)(\w)$/$1$2/    # Flypy: ABC
     - xform/^(\w+);(\w)(\w)$/$1/       # Flypy: AB
-    - xform/^~// # restore original quanpin
+    - xform/^~//                   # 把“~”开头的原始(全拼)编码还原回来
     #- abbrev/^(.).+$/$1/
 
 simplifier:
@@ -146,8 +147,9 @@ ecdict:                           # 英文单词(中文释义提示), 搭配lua�
   encode_commit_history: false
   enable_sentence: false
   enable_completion: true        # 是否启用英文输入联想补全
+  enable_user_dict: true
   dictionary: ecdict
-  initial_quality: -1
+  initial_quality: 1
 
 custom_phrase_completion:         # 用户自定义词库custom_phrase_completion.txt，支持自动补全
   dictionary: ""
@@ -190,7 +192,7 @@ key_binder:
     - { when: has_menu, accept: Control+k, send: Up } # 竖排候选词模式，移动到上一个候选词
     - { when: has_menu, accept: Control+l, send_sequence:  "{Right}{Right}" } # 向右移动光标到后1个字位置
     # 手机上按Shift+Delete键不方便，用X键长按得到的"Control+x"来删除候选字
-    - { when: has_menu, accept: Control+x, send: Shift+Delete } # DeleteCandidate for Android
+    - { when: has_menu, accept: Control+x, send: Shift+Delete }
 
 recognizer:
   # import_preset: default
