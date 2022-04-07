@@ -4,20 +4,20 @@
 schema:
   schema_id: zhuiyue
   name: 流星追月
-  version: "0.3.0"
+  version: "0.4.0"
   author:
     - 流星追月 <zhuangzhemin@qq.com>
   description: |
-    小鹤音形
-    - Flypy by 小鹤
-    - Rime schema by 佛振 <chen.sst@gmail.com>
-    - Chinese Dict from wiki_zh
-    - English & librime-lua-script by shewer
+    流星追月
+    - 小鹤音形 来自 小鹤 & 开源小鹤
+    - 中文词库 来自 现代汉语词典 & 清华开源词库 & 维基中文词条
+    - 英文词库及中文释义 来自 简明英汉词典（增强版）https://github.com/skywind3000/ECDICT
   dependencies:
-    - flypy_chars
-    - flypy_phrases
-    - wiki_zh
-    - ecdict
+    - flypy_chars     # 小鹤音形 - 单字
+    - flypy_phrases   # 中文词库 - 现代汉语词典 & 清华开源词库
+    - wiki_zh         # 中文词库 - 维基中文词条
+    - ecdict          # 英文单词&词组 - 简明英汉词典（增强版）
+    - ecdict_reverse  # 中文释义反查 - 简明英汉词典（增强版）
 
 switches:
   - name: ascii_mode
@@ -30,9 +30,9 @@ switches:
     states: [ 繁, 简 ]
   - name: ascii_punct
     states: [ 。, ． ]
-  #- options: [ gbk+emoji, utf8 ]
-  #  states: [ GBK, UTF-8 ]
-  #  reset: 0
+  - name: ecdict
+    states: [ 中英, 英文 ]
+    reset: 0
   - name: _hide_candidate
     states: [ ☐, ─ ]
     reset: 1
@@ -47,6 +47,7 @@ engine:
     - selector
     - navigator
     - express_editor
+    - lua_processor@ecdict_processor               # 非ASCII模式下，使用右shift键切换中英/英文模式
   segmentors:
     - ascii_segmentor
     - matcher
@@ -63,7 +64,8 @@ engine:
     - reverse_lookup_translator
     - table_translator@ecdict
   filters:
-    - lua_filter@ecdict_filter
+    - reverse_lookup_filter@ecdict_reverse_lookup  # 反查英文单词/词组的中文释义，作为comment显示
+    - lua_filter@ecdict_filter                     # 控制中英混合输入或者纯英文输入，以及截断过长的comment
     - simplifier
     - uniquifier
 
@@ -71,7 +73,7 @@ speller:
   alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`"
   delimiter: " '"
   algebra:
-    - derive/^(.*)$/~$1/  # backup original pin yin code 
+    - derive/^(.*)$/~$1/  # 把*.dict.yaml词库里面的(全拼)编码备份一份，开头添加“~”标识
     - xform/^sh(\w+)$/U$1/
     - xform/^ch(\w+)/I$1/
     - xform/^zh(\w+)/V$1/
@@ -112,7 +114,7 @@ speller:
     - derive/^(\w+);(\w)(\w)$/$1``/    # Flypy: AB``
     - derive/^(\w+);(\w)(\w)$/$1$2/    # Flypy: ABC
     - xform/^(\w+);(\w)(\w)$/$1/       # Flypy: AB
-    - xform/^~// # restore original quanpin
+    - xform/^~//                   # 把“~”开头的原始(全拼)编码还原回来
     #- abbrev/^(.).+$/$1/
 
 simplifier:
@@ -141,13 +143,22 @@ wiki_zh:                           # 小鹤音形-维基中文词条, 支持自�
   dictionary: wiki_zh
   initial_quality: -1
 
-ecdict:                           # 英文单词(中文释义提示), 搭配lua脚本使用
+ecdict:                           # 英文单词
   enable_encoder: false
   encode_commit_history: false
   enable_sentence: false
-  enable_completion: true        # 是否启用英文输入联想补全
+  enable_completion: true         # 是否启用英文输入联想补全
+  enable_user_dict: true
   dictionary: ecdict
-  initial_quality: -1
+  initial_quality: 1
+
+ecdict_reverse_lookup:            # 查询英文单词/词组的中文释义, 作为Comment进行提示
+  overwrite_comment: true
+  dictionary: ECDICT_reverse
+  comment_format:
+    - xform/\\n/ /
+    - xform/^/ /
+    # - xform/^(.{1,80}).*$/$1/   # 截断过长的comment，用xform截断中文comment最后一个字符可能会出现乱码, 改成用lua_filter处理
 
 custom_phrase_completion:         # 用户自定义词库custom_phrase_completion.txt，支持自动补全
   dictionary: ""
@@ -190,7 +201,7 @@ key_binder:
     - { when: has_menu, accept: Control+k, send: Up } # 竖排候选词模式，移动到上一个候选词
     - { when: has_menu, accept: Control+l, send_sequence:  "{Right}{Right}" } # 向右移动光标到后1个字位置
     # 手机上按Shift+Delete键不方便，用X键长按得到的"Control+x"来删除候选字
-    - { when: has_menu, accept: Control+x, send: Shift+Delete } # DeleteCandidate for Android
+    - { when: has_menu, accept: Control+x, send: Shift+Delete }
 
 recognizer:
   # import_preset: default

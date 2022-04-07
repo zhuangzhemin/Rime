@@ -487,7 +487,7 @@ preset_keyboards:
     - {click: 'o', long_click: '{'}
     - {click: 'p', long_click: '}'}
     - {width: 5}
-    - {click: 'a', long_click: "+", swipe_left: Keyboard_cn_lefthand}
+    - {click: 'a', long_click: "+"}
     - {click: 's', long_click: "-"}
     - {click: 'd', long_click: "_"}
     - {click: 'f', long_click: "="}
@@ -495,7 +495,7 @@ preset_keyboards:
     - {click: 'h', long_click: Left}
     - {click: 'j', long_click: Down}
     - {click: 'k', long_click: Up}
-    - {click: 'l', long_click: Right, swipe_right: Keyboard_cn_righthand}
+    - {click: 'l', long_click: Right}
     - {width: 5}
     - {click: Shift_L, has_menu: Tab, width: 15}
     - {click: 'z', long_click: '`'}
