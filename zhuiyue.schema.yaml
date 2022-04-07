@@ -8,16 +8,16 @@ schema:
   author:
     - 流星追月 <zhuangzhemin@qq.com>
   description: |
-    小鹤音形
-    - Flypy by 小鹤
-    - Rime schema by 佛振 <chen.sst@gmail.com>
-    - Chinese Dict from wiki_zh
-    - English & librime-lua-script by shewer
+    流星追月
+    - 小鹤音形 来自 小鹤 & 开源小鹤
+    - 中文词库 来自 现代汉语词典 & 清华开源词库 & 维基中文词条
+    - 英文词库及中文释义 来自 简明英汉词典（增强版）https://github.com/skywind3000/ECDICT
   dependencies:
-    - flypy_chars
-    - flypy_phrases
-    - wiki_zh
-    - ecdict
+    - flypy_chars     # 小鹤音形 - 单字
+    - flypy_phrases   # 中文词库 - 现代汉语词典 & 清华开源词库
+    - wiki_zh         # 中文词库 - 维基中文词条
+    - ecdict          # 英文单词&词组 - 简明英汉词典（增强版）
+    - ecdict_reverse  # 中文释义反查 - 简明英汉词典（增强版）
 
 switches:
   - name: ascii_mode
@@ -39,7 +39,6 @@ switches:
 
 engine:
   processors:
-    - lua_processor@ecdict_processor # 非ASCII模式下，使用右shift键切换中英/英文模式
     - ascii_composer
     - recognizer
     - key_binder
@@ -48,6 +47,7 @@ engine:
     - selector
     - navigator
     - express_editor
+    - lua_processor@ecdict_processor               # 非ASCII模式下，使用右shift键切换中英/英文模式
   segmentors:
     - ascii_segmentor
     - matcher
@@ -64,9 +64,10 @@ engine:
     - reverse_lookup_translator
     - table_translator@ecdict
   filters:
+    - reverse_lookup_filter@ecdict_reverse_lookup  # 反查英文单词/词组的中文释义，作为comment显示
+    - lua_filter@ecdict_filter                     # 控制中英混合输入或者纯英文输入，以及截断过长的comment
     - simplifier
     - uniquifier
-    - lua_filter@ecdict_filter
 
 speller:
   alphabet: "zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA`"
@@ -142,14 +143,22 @@ wiki_zh:                           # 小鹤音形-维基中文词条, 支持自�
   dictionary: wiki_zh
   initial_quality: -1
 
-ecdict:                           # 英文单词(中文释义提示), 搭配lua脚本使用
+ecdict:                           # 英文单词
   enable_encoder: false
   encode_commit_history: false
   enable_sentence: false
-  enable_completion: true        # 是否启用英文输入联想补全
+  enable_completion: true         # 是否启用英文输入联想补全
   enable_user_dict: true
   dictionary: ecdict
   initial_quality: 1
+
+ecdict_reverse_lookup:            # 查询英文单词/词组的中文释义, 作为Comment进行提示
+  overwrite_comment: true
+  dictionary: ECDICT_reverse
+  comment_format:
+    - xform/\\n/ /
+    - xform/^/ /
+    # - xform/^(.{1,80}).*$/$1/   # 截断过长的comment，用xform截断中文comment最后一个字符可能会出现乱码, 改成用lua_filter处理
 
 custom_phrase_completion:         # 用户自定义词库custom_phrase_completion.txt，支持自动补全
   dictionary: ""

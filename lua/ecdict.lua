@@ -65,63 +65,45 @@ end
 
 function Processor.func(key,env)
   local Rejected,Accepted,Noop=0,1,2
-  local context=env.engine.context
   local keyrepr = key:repr()
-  if not context:get_option("ascii_mode") and keyrepr == env.ecdict_switch_keyrepr then
-    if context:get_option(ECDICT_OPTION) then
-      context:set_option(ECDICT_OPTION, false)
-      context:set_option(ASCII_PUNCT_OPTION, false)
-    else
-      context:set_option(ECDICT_OPTION, true)
-      context:set_option(ASCII_PUNCT_OPTION, true)
+  local context=env.engine.context
+  if not context:get_option("ascii_mode") then
+    if keyrepr == env.ecdict_switch_keyrepr then
+      if context:get_option(ECDICT_OPTION) then
+        context:set_option(ECDICT_OPTION, false)
+        context:set_option(ASCII_PUNCT_OPTION, false)
+      else
+        context:set_option(ECDICT_OPTION, true)
+        context:set_option(ASCII_PUNCT_OPTION, true)
+      end
+      context:refresh_non_confirmed_composition()
+      return Accepted
     end
-    context:refresh_non_confirmed_composition()
-    return Accepted
   end
   return Noop
 end
 
 local function truncate_comment(comment)
-  local MAX_LENGTH = 40
+  local MAX_LENGTH = 80
+  local MAX_UTF8_LENGTH = 40
   local result = comment:gsub("\\n", ' ')
   if #result > MAX_LENGTH then
-    result = result:utf8_sub(1, MAX_LENGTH)
+    result = result:utf8_sub(1, MAX_UTF8_LENGTH)
   end
   return result
 end
 
 local Filter={}
 
-function Filter.init(env)
-  local path_ch = package.config:sub(1,1)
-  local dict_file = __ecdict_yaml_file and __ecdict_yaml_file or   "ECDICT.dict.yaml"
-  dict_file =  rime_api.get_user_data_dir() .. path_ch ..  dict_file
-  env.ecdict = EcdictParser:init(dict_file)
-end
-
 function Filter.func(input, env)
   local context = env.engine.context
-  local separator = " 🔎"
-  local comment
-  if context:get_option(ECDICT_OPTION) then
-    -- Output English candidates only
-    for cand in input:iter() do
-      comment = env.ecdict:get_comment(cand.text)
-      if comment ~= "" then
-        cand:get_genuine().comment = truncate_comment(separator .. comment)
-        yield(cand)
-      end
-    end
-  else
-    -- Output Chinese and English candidates
-    for cand in input:iter() do
-      comment = env.ecdict:get_comment(cand.text)
-      if comment ~= "" then
-        cand:get_genuine().comment = truncate_comment(separator .. comment)
-        yield(cand)
-      else
-        yield(cand)
-      end
+  local separator = " "
+  for cand in input:iter() do
+    if cand.text:match("^[%a%d '%-]+$") then -- cand.text contains only letters/numbers/ /'/-
+      cand:get_genuine().comment = truncate_comment(separator .. cand.comment)
+      yield(cand)
+    elseif not context:get_option(ECDICT_OPTION) then
+      yield(cand)
     end
   end
 end
