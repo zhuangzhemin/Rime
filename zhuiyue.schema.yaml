@@ -39,6 +39,7 @@ switches:
 
 engine:
   processors:
+    - lua_processor@ecdict_processor               # 非ASCII模式下，使用右shift键切换中英/英文模式
     - ascii_composer
     - recognizer
     - key_binder
@@ -47,7 +48,6 @@ engine:
     - selector
     - navigator
     - express_editor
-    - lua_processor@ecdict_processor               # 非ASCII模式下，使用右shift键切换中英/英文模式
   segmentors:
     - ascii_segmentor
     - matcher

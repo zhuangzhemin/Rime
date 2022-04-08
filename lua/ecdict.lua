@@ -67,6 +67,8 @@ function Processor.func(key,env)
   local Rejected,Accepted,Noop=0,1,2
   local keyrepr = key:repr()
   local context=env.engine.context
+  local has_menu = context:has_menu()
+  local is_composing = context:is_composing()
   if not context:get_option("ascii_mode") then
     if keyrepr == env.ecdict_switch_keyrepr then
       if context:get_option(ECDICT_OPTION) then
@@ -78,6 +80,15 @@ function Processor.func(key,env)
       end
       context:refresh_non_confirmed_composition()
       return Accepted
+    end
+    if not is_composing or not context:get_option(ECDICT_OPTION) then return Noop end
+    local key_char=  key.modifier <=1  and key.keycode <128 and string.char(key.keycode) or ""
+    if has_menu then
+      if key_char == " " then
+        context:commit()
+        env.engine:commit_text(key_char)
+        return Accepted
+      end
     end
   end
   return Noop
