@@ -15,7 +15,8 @@ schema:
   dependencies:
     - flypy_chars     # 小鹤音形 - 单字
     - flypy_phrases   # 中文词库 - 现代汉语词典 & 清华开源词库
-    - wiki_zh         # 中文词库 - 维基中文词条
+    # - wiki_zh         # 中文词库 - 维基中文词条
+    - tencent         # 中文词库 - 腾讯词向量百万词库
     - ecdict          # 英文单词&词组 - 简明英汉词典（增强版）
     - ecdict_reverse  # 中文释义反查 - 简明英汉词典（增强版）
 
@@ -58,7 +59,8 @@ engine:
     - punct_translator
     - script_translator
     - table_translator@flypy_phrases
-    - table_translator@wiki_zh
+    # - table_translator@wiki_zh
+    - table_translator@tencent
     - table_translator@custom_phrase_completion
     - table_translator@custom_phrase_no_completion
     - reverse_lookup_translator
@@ -126,6 +128,7 @@ translator:
   enable_correction: false         # 电脑上不需要开启按键纠错
   preedit_format:
   enable_charset_filter: true
+  initial_quality: 5
 
 flypy_phrases:                     # 小鹤音形-短语，支持自动补全, 词库源自现代汉语词典
   enable_encoder: false
@@ -133,15 +136,23 @@ flypy_phrases:                     # 小鹤音形-短语，支持自动补全, �
   enable_sentence: false
   enable_user_dict: true
   dictionary: flypy_phrases
-  initial_quality: -1
+  initial_quality: 2
 
-wiki_zh:                           # 小鹤音形-维基中文词条, 支持自动补全
+# wiki_zh:                           # 小鹤音形-维基中文词条, 支持自动补全
+#   enable_encoder: false
+#   encode_commit_history: false
+#   enable_sentence: false
+#   enable_user_dict: true
+#   dictionary: wiki_zh
+#   initial_quality: 1
+
+tencent:                           # 小鹤音形-腾讯词向量百万词库, 支持自动补全
   enable_encoder: false
   encode_commit_history: false
   enable_sentence: false
   enable_user_dict: true
-  dictionary: wiki_zh
-  initial_quality: -1
+  dictionary: tencent
+  initial_quality: 1
 
 ecdict:                           # 英文单词
   enable_encoder: false
@@ -166,7 +177,7 @@ custom_phrase_completion:         # 用户自定义词库custom_phrase_completio
   db_class: stabledb
   enable_completion: true
   enable_sentence: false
-  initial_quality: 1
+  initial_quality: 2
 
 custom_phrase_no_completion:     # 用户自定义词库custom_phrase_no_completion.txt，不支持自动补全
   dictionary: ""
@@ -174,7 +185,7 @@ custom_phrase_no_completion:     # 用户自定义词库custom_phrase_no_complet
   db_class: stabledb
   enable_completion: false
   enable_sentence: false
-  initial_quality: 1
+  initial_quality: 2
 
 reverse_lookup:
   dictionary: flypy_chars
