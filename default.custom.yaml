@@ -2,40 +2,15 @@ customization:
   distribution_code_name: Weasel
   distribution_version: 0.14.3
   generator: "Rime::SwitcherSettings"
-  modified_time: "Thu Mar 24 16:44:17 2022"
+  modified_time: "Tue Apr 11 00:10:58 2023"
   rime_version: 1.7.3
 patch:
   ascii_composer:
     good_old_caps_lock: true
-    switch_key: {
-      Caps_Lock: commit_code,
-      Control_L: noop,
-      Control_R: noop,
-      Eisu_toggle: clear,
-      Shift_L: commit_code,
-      Shift_R: inline_ascii}
+    switch_key: {Caps_Lock: commit_code, Control_L: noop, Control_R: noop, Eisu_toggle: clear, Shift_L: commit_code, Shift_R: inline_ascii}
   "menu/page_size": 9
   punctuator:
-    half_shape: {
-      "!": "！",
-      "\"": {pair: ["“", "”"]},
-      "$": "￥",
-      "'": {pair: ["‘", "’"]},
-      "(": "（", ")": "）",
-      ",": "，",
-      .: "。",
-      "/": "/",
-      ":": "：",
-      ";": "；",
-      "<": "《",
-      ">": "》",
-      "?": "？",
-      "[": "【",
-      "\\": "、",
-      "]": "】",
-      "^": "……",
-      _: "——",
-      "|": "·"}
+    half_shape: {"!": "！", "\"": {pair: ["“", "”"]}, "$": "￥", "'": {pair: ["‘", "’"]}, "(": "（", ")": "）", ",": "，", .: "。", "/": "/", ":": "：", ";": "；", "<": "《", ">": "》", "?": "？", "[": "【", "\\": "、", "]": "】", "^": "……", _: "——", "|": "·"}
   schema_list:
     - {schema: zhuiyue}
     - {schema: wubi86_qq}

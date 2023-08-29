@@ -1,0 +1,98 @@
+# Rime schema
+# encoding: utf-8
+
+schema:
+  schema_id: tencent
+  name: 腾讯词向量
+  version: "2023-04-08"
+  author:
+    - Tencent
+  description:
+    腾讯词向量百万词库
+    - (https://ai.tencent.com/ailab/nlp/zh/download.html)，感谢 @Huandeep 整理 https://github.com/iDvel/rime-ice/issues/24
+    - https://github.com/iDvel/rime-ice
+  dependencies:
+    - flypy_chars
+
+switches:
+  - name: ascii_mode
+    reset: 1
+    states: [ 中, En ]
+  - name: full_shape
+    states: [ ◖, ● ]
+  - name: simplification
+    reset: 1
+    states: [ 繁, 简 ]
+  - name: ascii_punct
+    states: [ 。, ． ]
+  - options: [ gbk+emoji, utf8 ]
+    states: [ GBK, UTF-8 ]
+    reset: 0
+  - name: _hide_candidate
+    states: [ ☐, ─ ]
+    reset: 1
+
+engine:
+  processors:
+    - ascii_composer
+    - recognizer
+    - key_binder
+    - speller
+    - punctuator
+    - selector
+    - navigator
+    - express_editor
+  segmentors:
+    - ascii_segmentor
+    - matcher
+    - abc_segmentor
+    - punct_segmentor
+    - fallback_segmentor
+  translators:
+    - punct_translator
+    - table_translator
+    - reverse_lookup_translator
+  filters:
+    - simplifier
+    - uniquifier
+    #- charset_filter@gb2312+emoji
+    #- charset_filter@gbk+emoji
+
+speller:
+  alphabet: "zyxwvutsrqponmlkjihgfedcba`"
+  delimiter: " '"
+  algebra:
+    - erase/^(\w+);(\w)(\w)$/  # erase single chars
+    - xlit/QWRTYUIOPSDFGHJKLZXCVBNM/qwrtyuiopsdfghjklzxcvbnm/
+
+translator:
+  dictionary: tencent
+  prism: tencent
+  #enable_correction: true
+  preedit_format:
+  enable_charset_filter: true
+
+reverse_lookup:
+  dictionary: flypy_chars
+  enable_completion: true
+  prefix: "`"
+  suffix: "$"
+  tips: 〔小鹤音形〕
+
+punctuator:
+  import_preset: default
+
+key_binder:
+  import_preset: default
+
+recognizer:
+  import_preset: default
+  patterns:
+    reverse_lookup: "[a-z`]*`+[a-z`]*"
+
+menu:
+  page_size: 10 #候选项数
+  
+style:
+  horizontal: true #竖排为false
+
