@@ -53,7 +53,7 @@ style:
   key_long_text_size: 12 #長標籤字號
   key_text_size: 20 #鍵字號
   key_width: 10.0 #鍵寬，佔螢幕寬的百分比
-  keyboards: [cn_36keys, en_36keys, number_36keys]
+  keyboards: [cn_36keys, en_36keys, number]
   label_text_size: 20 #標籤字號
   label_font: label.ttf #編標籤字型
   latin_font: latin.ttf #西文字型
@@ -420,7 +420,7 @@ preset_keys:
   IME_next: {label: 下一輸入法, send: LANGUAGE_SWITCH, select: .next} #直接切換到下一輸入法
   Keyboard_cn_36keys: {label: ⌨️, send: Eisu_toggle, select: cn_36keys}
   Keyboard_en_36keys: {label: abc, send: Eisu_toggle, select: en_36keys}
-  Keyboard_number_36keys: {label: 123, send: Eisu_toggle, select: number_36keys}
+  Keyboard_number_36keys: {label: 123, send: Eisu_toggle, select: number}
   Keyboard_default: {label: 返回, send: Eisu_toggle, select: .default}
   Keyboard_switch: {label: 鍵盤, send: Eisu_toggle, select: .next}
   Schema_switch: {label: 下一方案, send: Control+Shift+1}
@@ -462,11 +462,11 @@ preset_keyboards:
     author: "流星追月 <zhuangzhemin@qq.com>"
     ascii_mode: 0
     width: 10
-    height: 50
+    height: 42
     label_transform: uppercase #uppercase|none 中文模式下的字母標籤自動大寫
     lock: true
     keys:
-    - {click: '1', height: 50, long_click: '!'}
+    - {click: '1', height: 42, long_click: '!'}
     - {click: '2', long_click: '@'}
     - {click: '3', long_click: '#'}
     - {click: '4', long_click: '$'}
@@ -506,7 +506,7 @@ preset_keyboards:
     - {click: 'n', long_click: ':'}
     - {click: 'm', long_click: ";"}
     - {click: BackSpace, swipe_up: Escape, width: 15}
-    - {click: Mode_switch, height: 53, long_click: Menu, width: 12.5}
+    - {click: Mode_switch, height: 43, long_click: Menu, width: 12.5}
     - {click: Keyboard_number_36keys, long_click: liquid_keyboard_switch, width: 12.5}
     - {click: ',', long_click: "/", has_menu: Page_Up}
     - {click: space, long_click: VOICE_ASSIST, width: 30}
@@ -520,10 +520,10 @@ preset_keyboards:
     ascii_mode: 1
     lock: false
 
-  number_36keys:
+  number:
     name: 数字
     width: 20
-    height: 64
+    height: 54
     keys:
     - {click: '+'}
     - {click: '1'}
